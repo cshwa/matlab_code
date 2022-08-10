@@ -1,0 +1,83 @@
+function varargout = op_networkverification(varargin)
+% Outputs working GUIs. Makes .mat file necessary for running GUIs.
+%
+% op_networkverification
+% [guihandlenames,working_database,interface_directories] = op_networt...
+%
+% INPUT(S):
+%
+%   [none] -- 
+%
+% OUTPUT(S):
+%
+%   guihandlenames   -- (optional) handlenames to datasets, e.g., pushbutton39
+%   working_database -- (optional) function names to working datasets,
+%                       e.g., get_goes, get_airs, get_[other]
+%   interface_directories -- (optional) directory names corresponding to
+%                       directories within the Toolbox that are GUIs or 
+%                       have interfaces associated with datasets 
+%                       (this is a little redundant here but it retains
+%                       capital case that the working_database does not)
+%
+% If used without outputs, creates a file called "NetworkVerification.mat"
+% in /Common. This function was originally created with the idea in mind
+% of connecting the toolbox (via the internet) to a file containing a list
+% of working and not working datasets. This would in-turn disable some of
+% the buttons on the main interface--this has not be done yet.
+%
+% OPeNDAP Science Team
+% Copyright 2007, 2008
+% $Version 2.0.2$
+
+%==========================================================================
+% Christian Buckingham
+%
+% REVISION HISTORY:
+% 2008/01/01 1.0.0 created, ceb
+% 2008/02/07 1.1.0 edited, added OceanColor, ceb
+% 2008/03/01 2.0.0 released
+% 2008/03/18 2.0.1 modified to save .mat in /Common
+% 2008/06/25 2.0.2 adding more guis
+%==========================================================================
+guihandlenames = {'radiobutton1',...
+               'radiobutton2',...
+               'radiobutton3',...
+               'radiobutton4',...
+               'radiobutton5',... %'radiobutton6',...
+               'radiobutton7',... 
+               'radiobutton8',...
+               'pushbutton39',...
+               'pushbutton44'};   %'pushbutton46',...;
+           
+working_database = {'get_goes',...
+                    'get_hycom',...
+                    'get_oaflux',...
+                    'get_pathfinder1km',...
+                    'get_pathfinder4km',... %'get_seawinds',...
+                    'get_airs',...          
+                    'get_modis',...
+                    'get_oceancolor',...
+                    'get_aviso_altimetry'}; %'get_ghrsst',...;
+
+interface_directories = {'GOES',...
+                         'HYCOM',...
+                         'OAFlux',...
+                         'Pathfinder1km',...
+                         'Pathfinder4km',... %'SeaWinds',...
+                         'AIRS',...          
+                         'MODIS',...
+                         'OceanColor',...
+                         'AVISO_Altimetry'}; %'GHRSST',...;
+                     
+if nargout
+    varargout{1} = guihandlenames;
+    varargout{2} = working_database;
+    varargout{3} = interface_directories;
+else
+    pname = mfilename('fullpath');
+    pname = pname(1:length(pname) - length(mfilename));
+    fname = 'NetworkVerification.mat';
+    save([pname,fname],'guihandlenames','interface_directories','working_database')
+end
+
+return %endoffunction
